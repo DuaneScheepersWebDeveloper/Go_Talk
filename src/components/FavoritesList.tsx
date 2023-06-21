@@ -215,6 +215,7 @@ const FavoritesList: React.FC<FavoritesProps> = ({
                 <div>
                   <img src={episode.show.thumbnail} alt={episode.show.title} />
                 </div>
+
                 <div>
                   <h3>{episode.episode.title}</h3>
                   <p>{episode.show.title}</p>

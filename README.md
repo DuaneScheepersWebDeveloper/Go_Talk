@@ -1,73 +1,46 @@
----
----
+# Getting Started with Create React App
 
-- [x] All show data loaded via a `fetch` call from the `https://podcast-api.netlify.app/shows`
-- [x] All data is loaded a `fetch` and no endpoint-specific data is hardcoded
-- [x] When viewing a specific show data is loaded via `fetch` from individual show endpoint
-- [x] There is a loading state while initial data is being loaded
-- [x] There is a loading state while new data is being loaded
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
----
+## Available Scripts
 
-- [x] User sees the name of all available shows on the platform
-- [x] User sees shows broken down into seasons, sorted by number
-- [x] User has a way to listen to any episode in a season for a show
-- [x] User is able to see a view where only episodes for a specific selected season is shown
-- [x] User is able to toggle between different seasons for the same show
+In the project directory, you can run:
 
----
+### `npm start`
 
-- [x] User sees preview image of shows when browsing
-- [x] User sees the amount of season as number in a show when browsing
-- [x] User sees a human-readable date to when a show was last updated
-- [x] User sees what genres (as genre titles) a show is associated with when browsing
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
----
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-- [x] User sees a preview image of seasons for specific show
-- [x] User sees the amount of episodes as number for a season
-- [x] User is able to go back to a show view from an season-specific view
+### `npm test`
 
----
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-- [x] User is able to mark specific episodes as favourites so that they can find them again
-- [x] User can visit a view where they see all their favourites
-- [x] User is able to see the associated show and season when episode in favourite
-- [x] Related by season/show epsiodes are grouped together in favourites
-- [x] User is able able to remove episodes from their favourites
+### `npm run build`
 
----
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-- [x] User is able to arrange list of shows based on title from A-Z
-- [x] User is able to arrange list of shows based on title from Z-A
-- [x] User is able to arrange list of showing the most recent updated
-- [x] User is able to arrange list of shows from least recent updated
-- [x] User is able to filter shows based on title by means of a text input
-- [ ] User is able to find shows based on fuzzy matching of concepts (you can use something like [https://fusejs.io/](https://fusejs.io/))
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
----
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-- [ ] User sees the date and time that I added something as a favourite
-- [x] User is able to arrange favourites based on title from A-Z
-- [x] User is able to arrange favourites based on title from Z-A
-- [x] User is able to arrange favourites starting with the most recent updated
-- [x] User is able to arrange favourites starting with the furthest back updated
+### `npm run eject`
 
----
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-- [ ] Audio player is always visible so that user can listen to episodes while I browse
-- [ ] User receives a notification that confirms they want to close the page when audio is playing
-- [ ] App remembers what shows and episode user listened to last when returning to the platform
-- [ ] Automatically filters shows by a genre if the genre label is clicked on
-- [ ] App remembers and shows what episodes user listened all the way through
-- [ ] App remembers the exact timestamp where user stoped listening within a 10 seconds accuracy of closing
-- [ ] App remembers and shows the exact timestamp location of where I left off any episode
-- [ ] User has the option to "reset" all there progress, effectively removing their listening history
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
----
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-- [ ] User is presented with a sliding carousel of possible shows they might be interested in on the landing page
-- [ ] User is able to log in via [https://app.supabase.com](https://app.supabase.com/) authentication
-- [ ] User favourites are stored in [https://app.supabase.com](https://app.supabase.com/) database
-- [ ] User favourites are automatically synced when logged in, ensuring that they share favourites between devices
-- [ ] Users are able to share their favourites as a publicly accessible URL
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
