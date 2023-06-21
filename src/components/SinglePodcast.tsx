@@ -5,10 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import Seasons from './Seasons';
-import Player from './PodCastPlayer';
+
 import Button from './Button';
 import { SinglePodcastStyles } from './AppStyles';
 import { SelectEpisode, setSelectedEpisode } from '../store/actions/actions';
+import PodcastPlayer from './PodCastPlayer';
 
 interface Episode extends SelectEpisode {
   episode: number;
@@ -46,7 +47,7 @@ interface ShowDetailsProps {
   favoriteEpisodes: string[];
 }
 
-const ShowDetails = ({
+const SinglePodcast = ({
   show,
   goBack,
   toggleFavorite,
@@ -202,7 +203,7 @@ const ShowDetails = ({
                   </li>
                 ))}
               </ul>
-              <Player />
+              <PodcastPlayer />
             </>
           )}
 
@@ -215,4 +216,4 @@ const ShowDetails = ({
   );
 };
 
-export default ShowDetails;
+export default SinglePodcast;

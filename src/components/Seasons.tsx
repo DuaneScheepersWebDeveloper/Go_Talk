@@ -18,6 +18,7 @@ const Seasons: React.FC<SeasonSelectorProps> = ({
   selectedSeason,
   onSelectSeason,
 }) => {
+  // Handle the change of selected season
   const handleSeasonChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const season = parseInt(event.target.value);
     onSelectSeason(season);
@@ -31,6 +32,7 @@ const Seasons: React.FC<SeasonSelectorProps> = ({
         value={selectedSeason}
         onChange={handleSeasonChange}
       >
+        {/* Generate options for each season */}
         {seasons.map((season) => (
           <option key={season.season} value={season.season}>
             {season.title}

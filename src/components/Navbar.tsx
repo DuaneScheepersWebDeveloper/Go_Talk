@@ -4,14 +4,19 @@ import Button from './Button';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+  // useNavigate hook from react-router-dom to navigate between routes
   const navigate = useNavigate();
 
   const handleFavoritesClick = () => {
+    // Navigate to the "/favorites" route when the Favorites button is clicked
     navigate('/favorites');
   };
+
   const handleGoHome = () => {
+    // Navigate to the default route ("/") when the logo is clicked
     navigate('/');
   };
+
   return (
     <NavbarStyles>
       <div className="navbar-container">
@@ -28,4 +33,5 @@ const Navbar = () => {
     </NavbarStyles>
   );
 };
+
 export default Navbar;

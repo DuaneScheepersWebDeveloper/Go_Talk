@@ -1,15 +1,14 @@
 import React, { useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import MoonLoader from 'react-spinners/MoonLoader';
-import { setSelectedEpisode } from '../store/actions/actions';
 import { RootState } from '../store/store';
 import { PodcastPlayerStyles } from './AppStyles';
 
-const Player: React.FC = () => {
+const PodcastPlayer: React.FC = () => {
   const selectedEpisode = useSelector(
     (state: RootState) => state.player.selectedEpisode
   );
-  const dispatch = useDispatch();
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -44,5 +43,5 @@ const Player: React.FC = () => {
   );
 };
 
-export default Player;
+export default PodcastPlayer;
 // https://podcast-api.netlify.app/id/5279

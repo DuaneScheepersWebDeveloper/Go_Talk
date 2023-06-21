@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ShowDetails from './SinglePodcast';
+import SinglePodcast from './SinglePodcast';
 import PodcastList from './PodcastList';
 import { useFavoriteEpisodes } from '../handlers/favoritesHandler';
 
@@ -19,20 +19,25 @@ interface Show {
 }
 
 const DefaultList = () => {
+  // State to keep track of the selected podcast ID
   const [selectedPodcastId, setSelectedPodcastId] = useState<string | null>(
     null
   );
 
-  const { toggleFavorite, favoriteEpisodes } = useFavoriteEpisodes(); // Get the favoriteEpisodes from the custom hook
+  // Custom hook to handle favorite episodes
+  const { toggleFavorite, favoriteEpisodes } = useFavoriteEpisodes();
 
+  // Handle the click event when a show is selected
   const handleShowClick = (showId: string) => {
     setSelectedPodcastId(showId);
   };
 
+  // Handle the go back event when returning from the single podcast view
   const handleGoBack = () => {
     setSelectedPodcastId(null);
   };
 
+  // Handle the toggle favorite event for an episode
   const handleToggleFavorite = (
     episode: Episode,
     selectedSeasonData: Season | null,
@@ -46,13 +51,15 @@ const DefaultList = () => {
   return (
     <div>
       {selectedPodcastId ? (
-        <ShowDetails
+        // Render the SinglePodcast component when a podcast is selected
+        <SinglePodcast
           toggleFavorite={handleToggleFavorite}
           show={selectedPodcastId}
           goBack={handleGoBack}
-          favoriteEpisodes={favoriteEpisodes} // Pass the favoriteEpisodes to ShowDetails component
+          favoriteEpisodes={favoriteEpisodes} // Pass the favoriteEpisodes to the SinglePodcast component
         />
       ) : (
+        // Render the PodcastList component when no podcast is selected
         <PodcastList onShowClick={handleShowClick} />
       )}
     </div>

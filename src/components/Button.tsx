@@ -5,6 +5,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'third' | 'yellow';
 }
 
+// Define the styles for the button using styled-components
 const StyledButton = styled.button<ButtonProps>`
   /* Add common button styles here */
   padding: 8px 16px;
@@ -14,6 +15,7 @@ const StyledButton = styled.button<ButtonProps>`
   font-weight: bold;
   cursor: pointer;
   margin: 10px;
+
   ${({ variant }) =>
     variant === 'primary' &&
     `
@@ -27,12 +29,14 @@ const StyledButton = styled.button<ButtonProps>`
     background-color: dodgerblue;
     color: white;
   `}
-    ${({ variant }) =>
+
+  ${({ variant }) =>
     variant === 'third' &&
     `
     background-color: #31c48d;
     color: white;
   `}
+
   ${({ variant }) =>
     variant === 'yellow' &&
     `
@@ -41,6 +45,7 @@ const StyledButton = styled.button<ButtonProps>`
   `}
 `;
 
+// Button component
 const Button: React.FC<ButtonProps> = ({ variant = 'primary', ...props }) => {
   return <StyledButton variant={variant} {...props} />;
 };

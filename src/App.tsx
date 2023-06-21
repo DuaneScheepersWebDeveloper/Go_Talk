@@ -9,6 +9,7 @@ import FavoritesList from './components/FavoritesList';
 import { useFavoriteEpisodes } from './handlers/favoritesHandler';
 
 const App: React.FC = () => {
+  // Retrieve favoriteEpisodes and toggleFavorite from the useFavoriteEpisodes hook
   const { favoriteEpisodes, toggleFavorite } = useFavoriteEpisodes();
 
   return (
@@ -20,6 +21,7 @@ const App: React.FC = () => {
               <Navbar />
               <div className="content">
                 <Routes>
+                  {/* Render FavoritesList component when the path is "/favorites" */}
                   <Route
                     path="/favorites"
                     element={
@@ -29,6 +31,7 @@ const App: React.FC = () => {
                       />
                     }
                   />
+                  {/* Render DefaultList component for the default path "/" */}
                   <Route path="/" element={<DefaultList />} />
                 </Routes>
               </div>

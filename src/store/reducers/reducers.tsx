@@ -8,6 +8,7 @@ interface Episode {
   season: number;
   showImage: string;
 }
+
 interface PlayerState {
   selectedEpisode: {
     title: string;

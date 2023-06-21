@@ -7,7 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { Link } from 'react-router-dom';
 
+// Define the shape of a favorite episode
 interface FavoriteEpisode {
   key: string;
   show: any;
@@ -16,6 +18,7 @@ interface FavoriteEpisode {
   addedOn: string | undefined; // Updated type
 }
 
+// Define the props for the FavoritesList component
 interface FavoritesProps {
   favoriteEpisodeIDs: string[];
   toggleFavorite: (episode: any, season: any, show: any) => void;
@@ -25,6 +28,7 @@ const FavoritesList: React.FC<FavoritesProps> = ({
   favoriteEpisodeIDs,
   toggleFavorite,
 }) => {
+  // State variables
   const [favoriteEpisodes, setFavoriteEpisodes] = useState<FavoriteEpisode[]>(
     []
   );
@@ -36,6 +40,7 @@ const FavoritesList: React.FC<FavoritesProps> = ({
   const [showAddedMessage, setShowAddedMessage] = useState<string>('');
   const navigate = useNavigate();
 
+  // Fetch favorite episodes based on their IDs
   useEffect(() => {
     const fetchFavoriteEpisodes = async () => {
       try {
@@ -77,11 +82,13 @@ const FavoritesList: React.FC<FavoritesProps> = ({
     fetchFavoriteEpisodes();
   }, [favoriteEpisodeIDs]);
 
+  // Format a date string
   const formatDate = (dateString: string | number | Date) => {
     const date = new Date(dateString);
     return format(date, 'd MMMM, yyyy');
   };
 
+  // Apply sorting based on the selected sort type
   const applySorting = (
     sortType: 'titleAsc' | 'titleDes' | 'recent' | 'leastRecent' | undefined
   ): void => {
@@ -105,30 +112,36 @@ const FavoritesList: React.FC<FavoritesProps> = ({
     setFavoriteEpisodes(sortedEpisodes);
   };
 
+  // Toggle between ascending and descending sort order based on title
   const handleSortAZ = () => {
     setSortFavorites((prevSortType) =>
       prevSortType === 'titleAsc' ? 'titleDes' : 'titleAsc'
     );
   };
 
+  // Toggle between sorting by most recent and least recent
   const handleSortRecent = () => {
     setSortFavorites((prevSortType) =>
       prevSortType === 'recent' ? 'leastRecent' : 'recent'
     );
   };
 
+  // Handle the search input change
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValue(e.target.value);
   };
 
+  // Apply sorting when the sort type changes
   useEffect(() => {
     applySorting(sortFavorites);
   }, [sortFavorites]);
 
+  // Filter episodes based on the search filter
   const filteredEpisodes = favoriteEpisodes.filter((episode) =>
     episode.episode.title.toLowerCase().includes(filterValue.toLowerCase())
   );
 
+  // Handle the click event on an episode to navigate to its details
   const handleEpisodeClick = (
     showId: string,
     seasonId: string,
@@ -137,6 +150,7 @@ const FavoritesList: React.FC<FavoritesProps> = ({
     navigate(`/episode/${showId}/${seasonId}/${episodeId}`);
   };
 
+  // Handle the toggle favorite event
   const handleToggleFavorite = (episode: any, season: any, show: any): void => {
     toggleFavorite(episode, season, show);
     const currentDate = new Date();

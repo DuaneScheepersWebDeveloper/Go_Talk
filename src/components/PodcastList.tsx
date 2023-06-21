@@ -3,7 +3,6 @@ import MoonLoader from 'react-spinners/MoonLoader';
 import { ShowPodcastStyles } from './AppStyles';
 import Button from './Button';
 import { format } from 'date-fns';
-import _ from 'lodash';
 import { genreList } from '../handlers/genreHandler';
 
 interface Show {
@@ -12,8 +11,8 @@ interface Show {
   title: string;
   description: string;
   seasons: number;
-  genres: number[]; // Add genres property
-  updated: string; // Add updated property
+  genres: number[];
+  updated: string;
 }
 
 interface PodcastListProps {
@@ -50,7 +49,7 @@ const PodcastList: React.FC<PodcastListProps> = ({ onShowClick }) => {
   }, []);
 
   useEffect(() => {
-    const filtered = _.filter(shows, (show) => {
+    const filtered = shows.filter((show) => {
       const titleMatch = show.title
         .toLowerCase()
         .includes(filterInput.toLowerCase());
@@ -60,20 +59,25 @@ const PodcastList: React.FC<PodcastListProps> = ({ onShowClick }) => {
       }
 
       return (
-        titleMatch && _.intersection(show.genres, selectedGenres).length > 0
+        titleMatch &&
+        show.genres.some((genreId) => selectedGenres.includes(genreId))
       );
     });
 
-    const sorted = _.orderBy(filtered, 'title', sortOrder);
+    const sorted = filtered.sort((a, b) =>
+      sortOrder === 'asc'
+        ? a.title.localeCompare(b.title)
+        : b.title.localeCompare(a.title)
+    );
 
     setFilteredShows(sorted);
   }, [filterInput, selectedGenres, shows, sortOrder]);
 
   useEffect(() => {
-    const sortedRecentness = _.orderBy(
-      filteredShows,
-      'updated',
-      sortOrderRecentness
+    const sortedRecentness = filteredShows.sort((a, b) =>
+      sortOrderRecentness === 'asc'
+        ? a.updated.localeCompare(b.updated)
+        : b.updated.localeCompare(a.updated)
     );
     setFilteredShows(sortedRecentness);
   }, [sortOrderRecentness]);
@@ -95,38 +99,23 @@ const PodcastList: React.FC<PodcastListProps> = ({ onShowClick }) => {
     }
   };
 
-  const clampText = (text: string, maxLength: number) => {
-    if (text.length <= maxLength) {
-      return text;
-    }
-    return text.slice(0, maxLength) + '...';
-  };
-
   const handleFilterInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setFilterInput(event.target.value);
   };
 
-  const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
-    return format(date, 'd MMMM, yyyy');
-  };
-
-  const getGenreTitles = (genreIds: number[]): JSX.Element[] => {
-    return genreIds.map((genreId) => (
+  const getGenreTitles = (genreIds: number[]): JSX.Element[] =>
+    genreIds.map((genreId) => (
       <span className="genre-pill" key={genreId}>
         {genreList[genreId]}
       </span>
     ));
-  };
 
   const handleGenreClick = (genreId: number) => {
     if (selectedGenres.includes(genreId)) {
-      // If the genre is already selected, remove it from the selectedGenres state
       setSelectedGenres(selectedGenres.filter((id) => id !== genreId));
     } else {
-      // If the genre is not selected, add it to the selectedGenres state
       setSelectedGenres([...selectedGenres, genreId]);
     }
   };
@@ -167,35 +156,38 @@ const PodcastList: React.FC<PodcastListProps> = ({ onShowClick }) => {
         Recent {sortOrderRecentness === 'asc' ? 'Oldest First' : 'Newest First'}
       </Button>
       <div className="show-list">
-        {filteredShows.slice(0, visibleShows).map((show) => (
-          <div className="show-card" key={show.id}>
-            <div className="show-card-content">
-              <img
-                className="show-image"
-                key={show.id}
-                onClick={() => handleShowClick(show.id)}
-                src={show.image}
-                alt={show.title}
-              />
-              <div className="show-details">
-                <h3 className="show-title">{show.title}</h3>
-                <p className="show-seasons">Seasons: {show.seasons}</p>
-                <p className="show-description">
-                  {clampText(show.description, 100)}
-                </p>
-                <div className="genre-container">
-                  <span className="genre-label">Genres</span>
-                  <div className="genre-list">
-                    <p className="show-genres">{getGenreTitles(show.genres)}</p>
+        {filteredShows
+          .slice(0, visibleShows)
+          .map(
+            ({ id, image, title, seasons, description, genres, updated }) => (
+              <div className="show-card" key={id}>
+                <div className="show-card-content">
+                  <img
+                    className="show-image"
+                    onClick={() => handleShowClick(id)}
+                    src={image}
+                    alt={title}
+                  />
+                  <div className="show-details">
+                    <h3 className="show-title">{title}</h3>
+                    <p className="show-seasons">Seasons: {seasons}</p>
+                    <p className="show-description">
+                      {description.slice(0, 100)}...
+                    </p>
+                    <div className="genre-container">
+                      <span className="genre-label">Genres</span>
+                      <div className="genre-list">
+                        <p className="show-genres">{getGenreTitles(genres)}</p>
+                      </div>
+                    </div>
+                    <p className="last-uploaded">
+                      Last Uploaded: {format(new Date(updated), 'd MMMM, yyyy')}
+                    </p>
                   </div>
                 </div>
-                <p className="last-updated">
-                  Last Uploaded: {formatDate(show.updated)}
-                </p>
               </div>
-            </div>
-          </div>
-        ))}
+            )
+          )}
       </div>
 
       {!loadingMore && showLoadMore && visibleShows < shows.length && (
