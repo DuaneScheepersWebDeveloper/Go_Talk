@@ -9,7 +9,7 @@ export const AppStyles = styled.div`
 `;
 
 export const NavbarStyles = styled.nav`
-  background-color: #1e1e20; // Set the background color for the navbar
+  background-color: #54545b; // Set the background color for the navbar
   padding: 5px 0; // Apply padding to the navbar
   box-shadow: #31c48d; // Apply a box shadow to the navbar
   width: 100%; // Set the width of the navbar
@@ -288,7 +288,7 @@ export const SinglePodcastStyles = styled.div`
   .episode-item {
     margin-bottom: 20px; // Apply bottom margin to each episode item
     padding: 15px; // Apply padding to each episode item
-    background-color: #444; // Set the background color for each episode item
+    background-color: #8b8b9b; // Set the background color for each episode item
   }
 
   .episode-title {
@@ -369,7 +369,7 @@ export const PodcastPlayerStyles = styled.div`
 export const FooterStyles = styled.footer`
   /* FOOTER */
 
-  background-color: #1e1e20; // Set the background color for the footer
+  background-color: #54545b; // Set the background color for the footer
   padding: 50px 0; // Set padding for the footer (top and bottom: 50px, left and right: 0)
 
   text-align: center; // Center align the content within the footer
@@ -409,5 +409,9 @@ export const ShowFavoritePodcastStyles = styled.div`
     align-items: center; // Center align the content horizontally
     height: 100px; // Set the height of the loading spinner container
     margin-top: 20px; // Set margin at the top of the loading spinner
+  }
+  input {
+    width: 80%; // Set the width of the form input to 80%
+    padding: 10px; // Apply padding to the form input
   }
 `;
