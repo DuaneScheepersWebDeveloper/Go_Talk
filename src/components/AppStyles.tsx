@@ -192,6 +192,36 @@ export const ShowPodcastStyles = styled.div`
     justify-content: center; // Center child elements horizontally
     text-align: center; // Center child elements horizontally
   }
+  /* CSS for Slider arrows */
+  .slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 1; /* Ensure the arrows appear above the slider */
+    opacity: 0.8; /* Adjust the opacity to your preference */
+  }
+
+  .slider-arrow.prev {
+    left: 10px;
+  }
+
+  .slider-arrow.next {
+    right: 10px;
+  }
+
+  .slider-arrow:hover {
+    background-color: #e0e0e0;
+    opacity: 1; /* Increase the opacity on hover */
+  }
 `;
 
 export const SeasonsStyles = styled.div`
@@ -415,3 +445,57 @@ export const ShowFavoritePodcastStyles = styled.div`
     padding: 10px; // Apply padding to the form input
   }
 `;
+
+export const CarouselStyles = styled.div`
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+
+  .carousel-slide {
+    /* Change flex-direction to row */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .carousel-image {
+    max-width: 200px;
+    height: auto;
+    margin-right: 10px;
+    cursor: pointer; /* Add margin-right to create space between slides */
+  }
+
+  .show-title {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+
+  .show-seasons {
+    font-size: 14px;
+    color: #888;
+  }
+`;
+export const prevArrowStyles = {
+  position: 'absolute',
+  top: '50%',
+  left: '-30px',
+  transform: 'translateY(-50%)',
+  zIndex: 1,
+  color: '#000',
+  fontSize: '2rem',
+  cursor: 'pointer',
+};
+
+export const nextArrowStyles = {
+  position: 'absolute',
+  top: '50%',
+  right: '-30px',
+  transform: 'translateY(-50%)',
+  zIndex: 1,
+  color: '#000',
+  fontSize: '2rem',
+  cursor: 'pointer',
+};

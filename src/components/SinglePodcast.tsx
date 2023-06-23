@@ -146,6 +146,9 @@ const SinglePodcast = ({
 
   return (
     <SinglePodcastStyles>
+      <Button variant="primary" className="go-back-btn" onClick={goBack}>
+        Go Back
+      </Button>
       {showData && (
         <div>
           <h3 className="show-title">{title}</h3>
@@ -206,10 +209,6 @@ const SinglePodcast = ({
               <PodcastPlayer />
             </>
           )}
-
-          <Button variant="primary" className="go-back-btn" onClick={goBack}>
-            Go Back
-          </Button>
         </div>
       )}
     </SinglePodcastStyles>

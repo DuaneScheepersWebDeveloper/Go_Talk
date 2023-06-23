@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react';
 import MoonLoader from 'react-spinners/MoonLoader';
-import { ShowPodcastStyles } from './AppStyles';
+import {
+  ShowPodcastStyles,
+  nextArrowStyles,
+  prevArrowStyles,
+} from './AppStyles';
 import Button from './Button';
 import { format } from 'date-fns';
 import { genreList } from '../handlers/genreHandler';
-
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 interface Show {
   id: string;
   image: string;
@@ -126,6 +133,41 @@ const PodcastList: React.FC<PodcastListProps> = ({ onShowClick }) => {
 
   return (
     <ShowPodcastStyles>
+      <div className="sliderDiv">
+        <Button>Some Podcasts you may enjoy</Button>
+        <Slider
+          speed={2000} // Transition speed in milliseconds
+          slidesToShow={4} // Number of slides to show at a time
+          slidesToScroll={1} // Number of slides to scroll per navigation
+          prevArrow={
+            <FaArrowLeft
+              style={prevArrowStyles as React.CSSProperties}
+              className="slider-arrow prev"
+            />
+          }
+          nextArrow={
+            <FaArrowRight
+              style={nextArrowStyles as React.CSSProperties}
+              className=" slider-arrow next"
+            />
+          }
+        >
+          {filteredShows.map(
+            ({ id, image, title, seasons, description, genres, updated }) => (
+              <div className="show-card" key={id}>
+                <img
+                  className="show-image"
+                  onClick={() => handleShowClick(id)}
+                  src={image}
+                  alt={title}
+                />
+                <h3 className="show-title">{title}</h3>
+                <p className="show-seasons">Seasons: {seasons}</p>
+              </div>
+            )
+          )}
+        </Slider>
+      </div>
       <form className="filter-form">
         <input
           type="text"
@@ -189,7 +231,6 @@ const PodcastList: React.FC<PodcastListProps> = ({ onShowClick }) => {
             )
           )}
       </div>
-
       {!loadingMore && showLoadMore && visibleShows < shows.length && (
         <div className="load-more-container">
           <Button
@@ -201,7 +242,6 @@ const PodcastList: React.FC<PodcastListProps> = ({ onShowClick }) => {
           </Button>
         </div>
       )}
-
       {loadingMore && (
         <div className="loading-spinner">
           <MoonLoader color="black" loading={true} size={60} />
