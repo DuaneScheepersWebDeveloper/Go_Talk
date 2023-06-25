@@ -6,6 +6,11 @@ export const AppStyles = styled.div`
     align-items: center; // Center child elements vertically
     height: 90vh; // Set the height of the loading spinner container to 90% of the viewport height
   }
+  .content {
+    margin: auto;
+    max-width: 1280px;
+    flex: auto;
+  }
 `;
 
 export const NavbarStyles = styled.nav`
@@ -192,35 +197,28 @@ export const ShowPodcastStyles = styled.div`
     justify-content: center; // Center child elements horizontally
     text-align: center; // Center child elements horizontally
   }
-  /* CSS for Slider arrows */
-  .slider-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background-color: #ffffff;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    z-index: 1; /* Ensure the arrows appear above the slider */
-    opacity: 0.8; /* Adjust the opacity to your preference */
+
+  .sliderDiv {
+    width: 100%;
+  }
+  .slick-dots {
+    margin: 20px;
   }
 
-  .slider-arrow.prev {
-    left: 10px;
+  .slick-next {
+    font-size: 3rem;
+    border-radius: 100%;
+    color: white;
+    padding: 0.5rem;
+    background-color: grey;
   }
-
-  .slider-arrow.next {
-    right: 10px;
-  }
-
-  .slider-arrow:hover {
-    background-color: #e0e0e0;
-    opacity: 1; /* Increase the opacity on hover */
+  .slick-prev {
+    font-size: 3rem;
+    padding: 0.5rem;
+    left: -2.5rem;
+    color: white;
+    border-radius: 100%;
+    background-color: grey;
   }
 `;
 
@@ -478,24 +476,24 @@ export const CarouselStyles = styled.div`
     color: #888;
   }
 `;
-export const prevArrowStyles = {
-  position: 'absolute',
-  top: '50%',
-  left: '-30px',
-  transform: 'translateY(-50%)',
-  zIndex: 1,
-  color: '#000',
-  fontSize: '2rem',
-  cursor: 'pointer',
-};
+// export const prevArrowStyles = {
+//   position: 'absolute',
+//   top: '50%',
+//   left: '-30px',
+//   transform: 'translateY(-50%)',
+//   zIndex: 1,
+//   color: '#000',
+//   fontSize: '2rem',
+//   cursor: 'pointer',
+// };
 
-export const nextArrowStyles = {
-  position: 'absolute',
-  top: '50%',
-  right: '-30px',
-  transform: 'translateY(-50%)',
-  zIndex: 1,
-  color: '#000',
-  fontSize: '2rem',
-  cursor: 'pointer',
-};
+// export const nextArrowStyles = {
+//   position: 'absolute',
+//   top: '50%',
+//   right: '-30px',
+//   transform: 'translateY(-50%)',
+//   zIndex: 1,
+//   color: '#000',
+//   fontSize: '2rem',
+//   cursor: 'pointer',
+// };

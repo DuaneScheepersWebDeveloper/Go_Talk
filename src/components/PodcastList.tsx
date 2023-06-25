@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react';
 import MoonLoader from 'react-spinners/MoonLoader';
-import {
-  ShowPodcastStyles,
-  nextArrowStyles,
-  prevArrowStyles,
-} from './AppStyles';
+import { ShowPodcastStyles } from './AppStyles';
 import Button from './Button';
 import { format } from 'date-fns';
 import { genreList } from '../handlers/genreHandler';
@@ -134,23 +130,14 @@ const PodcastList: React.FC<PodcastListProps> = ({ onShowClick }) => {
   return (
     <ShowPodcastStyles>
       <div className="sliderDiv">
-        <Button>Some Podcasts you may enjoy</Button>
+        <h1>Some Podcasts you may enjoy</h1>
         <Slider
+          dots={true}
           speed={2000} // Transition speed in milliseconds
           slidesToShow={4} // Number of slides to show at a time
-          slidesToScroll={1} // Number of slides to scroll per navigation
-          prevArrow={
-            <FaArrowLeft
-              style={prevArrowStyles as React.CSSProperties}
-              className="slider-arrow prev"
-            />
-          }
-          nextArrow={
-            <FaArrowRight
-              style={nextArrowStyles as React.CSSProperties}
-              className=" slider-arrow next"
-            />
-          }
+          slidesToScroll={3} // Number of slides to scroll per navigation
+          prevArrow={<FaArrowLeft className="slider-arrow prev" />}
+          nextArrow={<FaArrowRight className=" slider-arrow next" />}
         >
           {filteredShows.map(
             ({ id, image, title, seasons, description, genres, updated }) => (
