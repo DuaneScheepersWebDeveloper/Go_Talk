@@ -83,7 +83,7 @@ const PodcastList: React.FC<PodcastListProps> = ({ onShowClick }) => {
         : b.updated.localeCompare(a.updated)
     );
     setFilteredShows(sortedRecentness);
-  }, [sortOrderRecentness]);
+  }, [filteredShows, sortOrderRecentness]);
 
   const handleShowClick = (podcastId: string) => {
     onShowClick(podcastId);
@@ -139,20 +139,18 @@ const PodcastList: React.FC<PodcastListProps> = ({ onShowClick }) => {
           prevArrow={<FaArrowLeft className="slider-arrow prev" />}
           nextArrow={<FaArrowRight className=" slider-arrow next" />}
         >
-          {filteredShows.map(
-            ({ id, image, title, seasons, description, genres, updated }) => (
-              <div className="show-card" key={id}>
-                <img
-                  className="show-image"
-                  onClick={() => handleShowClick(id)}
-                  src={image}
-                  alt={title}
-                />
-                <h3 className="show-title">{title}</h3>
-                <p className="show-seasons">Seasons: {seasons}</p>
-              </div>
-            )
-          )}
+          {filteredShows.map(({ id, image, title, seasons }) => (
+            <div className="show-card" key={id}>
+              <img
+                className="show-image"
+                onClick={() => handleShowClick(id)}
+                src={image}
+                alt={title}
+              />
+              <h3 className="show-title">{title}</h3>
+              <p className="show-seasons">Seasons: {seasons}</p>
+            </div>
+          ))}
         </Slider>
       </div>
       <form className="filter-form">

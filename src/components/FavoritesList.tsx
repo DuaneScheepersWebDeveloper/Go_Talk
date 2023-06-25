@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 import MoonLoader from 'react-spinners/MoonLoader';
 import { ShowFavoritePodcastStyles } from './AppStyles';
@@ -6,8 +6,6 @@ import Button from './Button';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { Link } from 'react-router-dom';
 
 // Define the shape of a favorite episode
 interface FavoriteEpisode {
@@ -15,7 +13,7 @@ interface FavoriteEpisode {
   show: any;
   season: any;
   episode: any;
-  addedOn: string | undefined; // Updated type
+  addedOn?: string; // Updated type
 }
 
 // Define the props for the FavoritesList component
@@ -37,7 +35,6 @@ const FavoritesList: React.FC<FavoritesProps> = ({
     'titleAsc' | 'titleDes' | 'recent' | 'leastRecent' | undefined
   >(undefined);
   const [filterValue, setFilterValue] = useState('');
-  const [showAddedMessage, setShowAddedMessage] = useState<string>('');
   const navigate = useNavigate();
 
   // Fetch favorite episodes based on their IDs
@@ -66,7 +63,6 @@ const FavoritesList: React.FC<FavoritesProps> = ({
             episode: seasonData.episodes.find(
               (episode: any) => episode.episode === Number(episodeID)
             ),
-            addedOn: '',
           };
           episodes.push(episodeObject);
         }
@@ -89,28 +85,33 @@ const FavoritesList: React.FC<FavoritesProps> = ({
   };
 
   // Apply sorting based on the selected sort type
-  const applySorting = (
-    sortType: 'titleAsc' | 'titleDes' | 'recent' | 'leastRecent' | undefined
-  ): void => {
-    const sortedEpisodes = [...favoriteEpisodes];
+  const applySorting = useCallback(
+    (
+      sortType: 'titleAsc' | 'titleDes' | 'recent' | 'leastRecent' | undefined
+    ): void => {
+      const sortedEpisodes = [...favoriteEpisodes];
 
-    const sortOptions: {
-      [key: string]: (a: FavoriteEpisode, b: FavoriteEpisode) => number;
-    } = {
-      titleAsc: (a, b) => a.episode.title.localeCompare(b.episode.title),
-      titleDes: (a, b) => b.episode.title.localeCompare(a.episode.title),
-      recent: (a, b) =>
-        new Date(b.show.updated).getTime() - new Date(a.show.updated).getTime(),
-      leastRecent: (a, b) =>
-        new Date(a.show.updated).getTime() - new Date(b.show.updated).getTime(),
-    };
+      const sortOptions: {
+        [key: string]: (a: FavoriteEpisode, b: FavoriteEpisode) => number;
+      } = {
+        titleAsc: (a, b) => a.episode.title.localeCompare(b.episode.title),
+        titleDes: (a, b) => b.episode.title.localeCompare(a.episode.title),
+        recent: (a, b) =>
+          new Date(b.show.updated).getTime() -
+          new Date(a.show.updated).getTime(),
+        leastRecent: (a, b) =>
+          new Date(a.show.updated).getTime() -
+          new Date(b.show.updated).getTime(),
+      };
 
-    if (sortType) {
-      sortedEpisodes.sort(sortOptions[sortType]);
-    }
+      if (sortType) {
+        sortedEpisodes.sort(sortOptions[sortType]);
+      }
 
-    setFavoriteEpisodes(sortedEpisodes);
-  };
+      setFavoriteEpisodes(sortedEpisodes);
+    },
+    [favoriteEpisodes]
+  );
 
   // Toggle between ascending and descending sort order based on title
   const handleSortAZ = () => {
@@ -134,7 +135,7 @@ const FavoritesList: React.FC<FavoritesProps> = ({
   // Apply sorting when the sort type changes
   useEffect(() => {
     applySorting(sortFavorites);
-  }, [sortFavorites]);
+  }, [applySorting, sortFavorites]);
 
   // Filter episodes based on the search filter
   const filteredEpisodes = favoriteEpisodes.filter((episode) =>
@@ -167,7 +168,6 @@ const FavoritesList: React.FC<FavoritesProps> = ({
     });
 
     setFavoriteEpisodes(updatedEpisodes);
-    setShowAddedMessage(`Added on ${formattedDate}`);
   };
 
   return (
@@ -214,43 +214,26 @@ const FavoritesList: React.FC<FavoritesProps> = ({
               >
                 <div>
                   <img src={episode.show.thumbnail} alt={episode.show.title} />
-                </div>
-
-                <div>
                   <h3>{episode.episode.title}</h3>
-                  <p>{episode.show.title}</p>
-                  <p>
-                    Season {episode.season.season} - Episode{' '}
-                    {episode.episode.episode}
-                  </p>
-                  <p>{formatDate(episode.show.updated)}</p>
-                  <p>
-                    <p>
-                      Added on:{' '}
-                      {episode.addedOn
-                        ? formatDate(episode.addedOn)
-                        : 'Not available'}
-                    </p>
-                  </p>
+                  {episode.addedOn && (
+                    <p>Added on: {formatDate(episode.addedOn)}</p>
+                  )}
                 </div>
               </div>
-              <div
-                className="favorite-icon"
-                onClick={() =>
-                  handleToggleFavorite(
-                    episode.episode,
-                    episode.season,
-                    episode.show
-                  )
-                }
-              >
-                <AiFillHeart size={24} color="#e74c3c" />
+              <div className="icon-container">
+                <AiFillHeart
+                  className="favorite-icon"
+                  onClick={() =>
+                    handleToggleFavorite(
+                      episode.episode,
+                      episode.season,
+                      episode.show
+                    )
+                  }
+                  color="#FF0000"
+                  size={24}
+                />
               </div>
-              <img
-                className="single-show-image"
-                src={episode.show.image}
-                alt={episode.show.title}
-              />
             </div>
           ))}
         </Carousel>
