@@ -8,6 +8,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+
 interface Show {
   id: string;
   image: string;
@@ -25,9 +26,7 @@ interface PodcastListProps {
 const PodcastList: React.FC<PodcastListProps> = ({ onShowClick }) => {
   const [shows, setShows] = useState<Show[]>([]);
   const [loading, setLoading] = useState(true);
-  const [loadingMore, setLoadingMore] = useState(false);
   const [visibleShows, setVisibleShows] = useState(12);
-  const [showLoadMore, setShowLoadMore] = useState(true);
   const [filterInput, setFilterInput] = useState('');
   const [filteredShows, setFilteredShows] = useState<Show[]>(shows);
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
@@ -90,13 +89,10 @@ const PodcastList: React.FC<PodcastListProps> = ({ onShowClick }) => {
   };
 
   const handleLoadMore = async () => {
-    setLoadingMore(true);
-
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       setVisibleShows((prevVisibleShows) => prevVisibleShows + 8);
-      setLoadingMore(false);
     } catch (error) {
       console.error('Something went wrong', error);
     }
@@ -207,8 +203,8 @@ const PodcastList: React.FC<PodcastListProps> = ({ onShowClick }) => {
                         <p className="show-genres">{getGenreTitles(genres)}</p>
                       </div>
                     </div>
-                    <p className="last-uploaded">
-                      Last Uploaded: {format(new Date(updated), 'd MMMM, yyyy')}
+                    <p className="show-updated">
+                      Updated: {format(new Date(updated), 'MM/dd/yyyy')}
                     </p>
                   </div>
                 </div>
@@ -216,22 +212,14 @@ const PodcastList: React.FC<PodcastListProps> = ({ onShowClick }) => {
             )
           )}
       </div>
-      {!loadingMore && showLoadMore && visibleShows < shows.length && (
-        <div className="load-more-container">
-          <Button
-            variant="primary"
-            className="load-more-button"
-            onClick={handleLoadMore}
-          >
-            Load More
-          </Button>
+      {visibleShows < filteredShows.length && (
+        <div className="load-more">
+          <Button onClick={handleLoadMore}>Load More</Button>
         </div>
       )}
-      {loadingMore && (
-        <div className="loading-spinner">
-          <MoonLoader color="black" loading={true} size={60} />
-        </div>
-      )}
+      <div className="spinner">
+        {loading && <MoonLoader size={50} color="#123abc" />}
+      </div>
     </ShowPodcastStyles>
   );
 };
