@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 import MoonLoader from 'react-spinners/MoonLoader';
@@ -9,16 +8,14 @@ import { format } from 'date-fns';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
-// Define the shape of a favorite episode
 interface FavoriteEpisode {
   key: string;
   show: any;
   season: any;
   episode: any;
-  addedOn?: string; // Updated type
+  addedOn?: string;
 }
 
-// Define the props for the FavoritesList component
 interface FavoritesProps {
   favoriteEpisodeIDs: string[];
   toggleFavorite: (episode: any, season: any, show: any) => void;
@@ -28,7 +25,6 @@ const FavoritesList: React.FC<FavoritesProps> = ({
   favoriteEpisodeIDs,
   toggleFavorite,
 }) => {
-  // State variables
   const [favoriteEpisodes, setFavoriteEpisodes] = useState<FavoriteEpisode[]>(
     []
   );
@@ -37,9 +33,10 @@ const FavoritesList: React.FC<FavoritesProps> = ({
     'titleAsc' | 'titleDes' | 'recent' | 'leastRecent' | undefined
   >(undefined);
   const [filterValue, setFilterValue] = useState('');
+  const [sharedURL, setSharedURL] = useState('');
+
   const navigate = useNavigate();
 
-  // Fetch favorite episodes based on their IDs
   useEffect(() => {
     const fetchFavoriteEpisodes = async () => {
       try {
@@ -80,13 +77,11 @@ const FavoritesList: React.FC<FavoritesProps> = ({
     fetchFavoriteEpisodes();
   }, [favoriteEpisodeIDs]);
 
-  // Format a date string
   const formatDate = (dateString: string | number | Date) => {
     const date = new Date(dateString);
     return format(date, 'd MMMM, yyyy');
   };
 
-  // Apply sorting based on the selected sort type
   const applySorting = (
     sortType: 'titleAsc' | 'titleDes' | 'recent' | 'leastRecent' | undefined
   ): void => {
@@ -110,36 +105,30 @@ const FavoritesList: React.FC<FavoritesProps> = ({
     setFavoriteEpisodes(sortedEpisodes);
   };
 
-  // Toggle between ascending and descending sort order based on title
   const handleSortAZ = () => {
     setSortFavorites((prevSortType) =>
       prevSortType === 'titleAsc' ? 'titleDes' : 'titleAsc'
     );
   };
 
-  // Toggle between sorting by most recent and least recent
   const handleSortRecent = () => {
     setSortFavorites((prevSortType) =>
       prevSortType === 'recent' ? 'leastRecent' : 'recent'
     );
   };
 
-  // Handle the search input change
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValue(e.target.value);
   };
 
-  // Apply sorting when the sort type changes
   useEffect(() => {
     applySorting(sortFavorites);
   }, [sortFavorites]);
 
-  // Filter episodes based on the search filter
   const filteredEpisodes = favoriteEpisodes.filter((episode) =>
     episode.episode.title.toLowerCase().includes(filterValue.toLowerCase())
   );
 
-  // Handle the click event on an episode to navigate to its details
   const handleEpisodeClick = (
     showId: string,
     seasonId: string,
@@ -148,7 +137,6 @@ const FavoritesList: React.FC<FavoritesProps> = ({
     navigate(`/episode/${showId}/${seasonId}/${episodeId}`);
   };
 
-  // Handle the toggle favorite event
   const handleToggleFavorite = (episode: any, season: any, show: any): void => {
     toggleFavorite(episode, season, show);
     const currentDate = new Date();
@@ -165,6 +153,14 @@ const FavoritesList: React.FC<FavoritesProps> = ({
     });
 
     setFavoriteEpisodes(updatedEpisodes);
+  };
+
+  const handleShareEpisode = (episode: FavoriteEpisode) => {
+    const { key } = episode;
+    const sharedURL = `https://example.com/episodes/${key}`;
+    setSharedURL(sharedURL);
+    // Logic for copying the URL to the clipboard
+    // You can use a library like `clipboard-copy` or implement it manually
   };
 
   return (
@@ -254,6 +250,16 @@ const FavoritesList: React.FC<FavoritesProps> = ({
             </div>
           ))}
         </Carousel>
+      )}
+
+      {sharedURL && (
+        <div>
+          <p>Share this episode:</p>
+          <input type="text" value={sharedURL} readOnly />
+          <Button onClick={() => handleShareEpisode(favoriteEpisodes[0])}>
+            Copy URL
+          </Button>
+        </div>
       )}
     </ShowFavoritePodcastStyles>
   );
